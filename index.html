@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OEE & Manufacturing Overview | IndusERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body>
+
+  <aside class="erp-sidebar" id="erpSidebar">
+    <div class="brand-area">
+      <div class="brand-badge"><i class="bi bi-cpu-fill"></i></div>
+      <div class="d-flex flex-column lh-1">
+        <span class="fs-5 fw-bold text-white tracking-wide">INDUS<span style="color: #ff6500;">ERP</span></span>
+        <small class="text-secondary" style="font-size: 0.65rem;">Plant Floor Operating System</small>
+      </div>
+    </div>
+
+    <div class="px-3 pt-3 pb-1 text-uppercase text-secondary fw-bold" style="font-size: 0.65rem; letter-spacing: 0.08em;">
+      Plant Intelligence
+    </div>
+    <nav class="nav flex-column">
+      <a class="nav-link active" href="index.html">
+        <i class="bi bi-speedometer2"></i>
+        <span>OEE Overview</span>
+      </a>
+      <a class="nav-link" href="machine-floorplan.html">
+        <i class="bi bi-grid-3x3-gap"></i>
+        <span>Plant Floorplan Map</span>
+      </a>
+      <a class="nav-link" href="production-orders.html">
+        <i class="bi bi-kanban"></i>
+        <span>Work Orders (SPK)</span>
+      </a>
+    </nav>
+  </aside>
+
+  <header class="erp-topbar">
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-sm btn-light border d-lg-none" id="sidebarToggle">
+        <i class="bi bi-list fs-5"></i>
+      </button>
+      <div class="d-flex align-items-center gap-2">
+        <span class="badge text-bg-dark border border-secondary px-2 py-1"><i class="bi bi-buildings me-1"></i> Plant #1 Cikarang</span>
+        <span class="badge bg-success-subtle text-success border border-success-subtle px-2 py-1"><i class="bi bi-dot"></i> Lini Aktif (12/14)</span>
+      </div>
+    </div>
+
+    <div class="d-flex align-items-center gap-3">
+      <div class="d-none d-md-flex align-items-center gap-2 bg-light px-3 py-1 rounded border">
+        <i class="bi bi-clock-history text-secondary"></i>
+        <span class="fw-semibold small" id="plantClock">11:38:00 WIB</span>
+        <span class="badge" style="background: #ff6500;">Shift 1 (Pagi)</span>
+      </div>
+
+      <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle gap-2 text-reset" data-bs-toggle="dropdown">
+          <div class="avatar-box bg-dark text-white rounded d-flex align-items-center justify-content-center fw-bold" style="width: 36px; height: 36px; font-size: 0.85rem;">
+            AR
+          </div>
+          <div class="d-none d-sm-block text-start lh-1">
+            <div class="fw-bold small">Arisman, S.Kom</div>
+            <small class="text-muted" style="font-size: 0.7rem;">Plant Operations Manager</small>
+          </div>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow border-0 mt-2">
+          <li><h6 class="dropdown-header">Akun Pabrik</h6></li>
+          <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profil</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-box-arrow-right me-2"></i>Keluar</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <main class="erp-content">
+    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+      <div>
+        <h1 class="h4 fw-bold mb-1">Overall Equipment Effectiveness (OEE)</h1>
+        <p class="text-muted small mb-0">Efisiensi peralatan produksi terintegrasi secara realtime berdasarkan parameter OEE kelas dunia.</p>
+      </div>
+      <div class="d-flex gap-2">
+        <button class="btn btn-outline-secondary btn-sm" onclick="window.print()">
+          <i class="bi bi-printer me-1"></i> Cetak Lembar Shift
+        </button>
+        <button class="btn btn-sm text-white fw-bold shadow-sm" style="background: #ff6500;">
+          <i class="bi bi-arrow-repeat me-1"></i> Sync Telemetry
+        </button>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-xl-4">
+        <div class="card border-0 shadow-sm h-100 p-3" style="background: linear-gradient(145deg, #0b192c, #1e3e62); color: #fff;">
+          <div class="d-flex justify-content-between align-items-start mb-2">
+            <div>
+              <span class="badge text-bg-warning mb-1" style="font-size: 0.65rem;">WORLD-CLASS TARGET: 85%</span>
+              <h5 class="fw-bold mb-0">Total Skor OEE Pabrik</h5>
+            </div>
+            <i class="bi bi-award fs-3 text-warning"></i>
+          </div>
+          <div id="oeeMasterGauge" style="min-height: 200px;"></div>
+          <div class="d-flex justify-content-around text-center pt-2 border-top border-secondary border-opacity-25 mt-auto">
+            <div>
+              <small class="text-secondary d-block" style="font-size: 0.7rem;">Target Minimum</small>
+              <strong class="fs-6">80.0%</strong>
+            </div>
+            <div class="border-end border-secondary border-opacity-25"></div>
+            <div>
+              <small class="text-secondary d-block" style="font-size: 0.7rem;">Status Lini</small>
+              <strong class="text-success fs-6"><i class="bi bi-check-circle me-1"></i>Optimal</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-8">
+        <div class="row g-3 h-100">
+          <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100 p-3 bg-white">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted small fw-bold">1. AVAILABILITY</span>
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle">Kesiapan</span>
+              </div>
+              <h2 class="fw-bold mb-1">92.4%</h2>
+              <div class="progress mb-2" style="height: 6px;">
+                <div class="progress-bar bg-primary" role="progressbar" style="width: 92.4%;"></div>
+              </div>
+              <div class="d-flex justify-content-between small text-muted">
+                <span>Waktu Operasi: <strong>442 mnt</strong></span>
+                <span>Downtime: <strong>38 mnt</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100 p-3 bg-white">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted small fw-bold">2. PERFORMANCE</span>
+                <span class="badge bg-warning-subtle text-warning border border-warning-subtle">Kecepatan</span>
+              </div>
+              <h2 class="fw-bold mb-1">88.6%</h2>
+              <div class="progress mb-2" style="height: 6px;">
+                <div class="progress-bar bg-warning" role="progressbar" style="width: 88.6%;"></div>
+              </div>
+              <div class="d-flex justify-content-between small text-muted">
+                <span>Output Aktual: <strong>14.280</strong></span>
+                <span>Target Ideal: <strong>16.100</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4">
+            <div class="card border-0 shadow-sm h-100 p-3 bg-white">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <span class="text-muted small fw-bold">3. QUALITY RATE</span>
+                <span class="badge bg-success-subtle text-success border border-success-subtle">Kualitas</span>
+              </div>
+              <h2 class="fw-bold mb-1">98.1%</h2>
+              <div class="progress mb-2" style="height: 6px;">
+                <div class="progress-bar bg-success" role="progressbar" style="width: 98.1%;"></div>
+              </div>
+              <div class="d-flex justify-content-between small text-muted">
+                <span>Produk OK: <strong>14.008</strong></span>
+                <span>Defect (NG): <strong>272</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12">
+            <div class="card border-0 shadow-sm p-3 bg-white d-flex flex-row align-items-center justify-content-between flex-wrap gap-3">
+              <div class="d-flex align-items-center gap-3">
+                <div class="p-2 bg-light rounded text-primary fs-4"><i class="bi bi-sliders2-vertical"></i></div>
+                <div>
+                  <div class="fw-bold small">Rumus Kalkulasi Standar OEE:</div>
+                  <div class="text-muted" style="font-size: 0.75rem;">$OEE = 92.4\% \text{ (Availability)} \times 88.6\% \text{ (Performance)} \times 98.1\% \text{ (Quality)} = \mathbf{80.3\%}$</div>
+                </div>
+              </div>
+              <span class="badge px-3 py-2 text-white fw-bold" style="background: #10b981;">WORLD CLASS STANDARDS PASSED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-12 col-xl-8">
+        <div class="card border-0 shadow-sm p-4 bg-white h-100">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h5 class="fw-bold mb-0">Tren Output Produksi per Jam (Shift 1)</h5>
+              <small class="text-muted">Perbandingan kapasitas ideal vs output aktual lini Metal & Vislon</small>
+            </div>
+          </div>
+          <div id="hourlyTrendChart" style="min-height: 280px;"></div>
+        </div>
+      </div>
+
+      <div class="col-12 col-xl-4">
+        <div class="card border-0 shadow-sm p-4 bg-white h-100">
+          <h5 class="fw-bold mb-3">Status Mesin Pabrik</h5>
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex align-items-center justify-content-between p-3 rounded" style="background: #e8f9f1; border-left: 4px solid #10b981;">
+              <div><strong class="d-block text-success">RUNNING (PRODUKSI)</strong><small class="text-muted">Mesin beroperasi normal</small></div>
+              <h3 class="fw-bold text-success mb-0">11</h3>
+            </div>
+            <div class="d-flex align-items-center justify-content-between p-3 rounded" style="background: #fff8e6; border-left: 4px solid #f59e0b;">
+              <div><strong class="d-block text-warning">MAINTENANCE / IDLE</strong><small class="text-muted">Servis cetakan mould</small></div>
+              <h3 class="fw-bold text-warning mb-0">2</h3>
+            </div>
+            <div class="d-flex align-items-center justify-content-between p-3 rounded" style="background: #feecef; border-left: 4px solid #ef4444;">
+              <div><strong class="d-block text-danger">STOP / BREAKDOWN</strong><small class="text-muted">Pisau potong H4K1 macet</small></div>
+              <h3 class="fw-bold text-danger mb-0">1</h3>
+            </div>
+          </div>
+          <div class="mt-4 pt-3 border-top text-center">
+            <a href="machine-floorplan.html" class="btn btn-outline-primary btn-sm w-100"><i class="bi bi-grid-3x3 me-1"></i> Buka Peta Denah Lantai (Floorplan)</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>

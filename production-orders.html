@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work Orders & SPK Kanban Tracker | IndusERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="assets/css/app.css">
+  <style>
+    .kanban-col {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+      min-height: 600px;
+    }
+    .kanban-card {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+      cursor: grab;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .kanban-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.06);
+      border-color: #cbd5e1;
+    }
+    .priority-high { border-left: 4px solid #ef4444; }
+    .priority-medium { border-left: 4px solid #f59e0b; }
+    .priority-normal { border-left: 4px solid #10b981; }
+  </style>
+</head>
+<body>
+
+  <aside class="erp-sidebar" id="erpSidebar">
+    <div class="brand-area">
+      <div class="brand-badge"><i class="bi bi-cpu-fill"></i></div>
+      <div class="d-flex flex-column lh-1">
+        <span class="fs-5 fw-bold text-white tracking-wide">INDUS<span style="color: #ff6500;">ERP</span></span>
+        <small class="text-secondary" style="font-size: 0.65rem;">Plant Floor Operating System</small>
+      </div>
+    </div>
+    <div class="px-3 pt-3 pb-1 text-uppercase text-secondary fw-bold" style="font-size: 0.65rem; letter-spacing: 0.08em;">Plant Intelligence</div>
+    <nav class="nav flex-column">
+      <a class="nav-link" href="index.html"><i class="bi bi-speedometer2"></i><span>OEE Overview</span></a>
+      <a class="nav-link" href="machine-floorplan.html"><i class="bi bi-grid-3x3-gap"></i><span>Plant Floorplan Map</span></a>
+      <a class="nav-link active" href="production-orders.html"><i class="bi bi-kanban"></i><span>Work Orders (SPK)</span></a>
+    </nav>
+  </aside>
+
+  <header class="erp-topbar">
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn btn-sm btn-light border d-lg-none" id="sidebarToggle"><i class="bi bi-list fs-5"></i></button>
+      <h1 class="h6 fw-bold mb-0">Production Tracking & Work Orders (SPK)</h1>
+    </div>
+    <button class="btn btn-sm text-white fw-bold px-3" style="background: #ff6500;" onclick="alert('Formulir rilis SPK siap dibuka.')">
+      <i class="bi bi-plus-lg me-1"></i> Rilis SPK Baru
+    </button>
+  </header>
+
+  <main class="erp-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="h4 fw-bold mb-1">Papan Kanban Alur Produksi</h1>
+        <p class="text-muted small mb-0">Pantau pergerakan batch order dari persiapan bahan baku hingga lolos Quality Control.</p>
+      </div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-12 col-md-6 col-xl-3">
+        <div class="kanban-col">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="fw-bold small text-dark"><i class="bi bi-box-seam me-1 text-primary"></i> 1. MATERIAL READY</span>
+            <span class="badge bg-secondary">2</span>
+          </div>
+
+          <div class="kanban-card priority-high">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-danger-subtle text-danger" style="font-size: 0.65rem;">URGENT EXPEDITE</span>
+              <small class="text-muted">SPK-9901</small>
+            </div>
+            <h6 class="fw-bold mb-1">Metal Zipper Gold 50cm</h6>
+            <small class="text-secondary d-block mb-2">Lot: 10.000 Pcs • Target: Besok 16:00</small>
+            <div class="d-flex justify-content-between align-items-center small text-muted border-top pt-2">
+              <span><i class="bi bi-hdd-rack me-1"></i>Alloy Brass 3mm</span>
+              <span>Operator A</span>
+            </div>
+          </div>
+
+          <div class="kanban-card priority-normal">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-success-subtle text-success" style="font-size: 0.65rem;">NORMAL</span>
+              <small class="text-muted">SPK-9904</small>
+            </div>
+            <h6 class="fw-bold mb-1">Vislon Zipper Black 65cm</h6>
+            <small class="text-secondary d-block mb-2">Lot: 5.000 Pcs • Target: 24 Okt</small>
+            <div class="d-flex justify-content-between align-items-center small text-muted border-top pt-2">
+              <span><i class="bi bi-hdd-rack me-1"></i>Polyacetal Resin</span>
+              <span>Operator C</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-xl-3">
+        <div class="kanban-col">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="fw-bold small text-dark"><i class="bi bi-gear-wide me-1 text-warning"></i> 2. TEETH FORMING</span>
+            <span class="badge bg-warning text-dark">1</span>
+          </div>
+
+          <div class="kanban-card priority-medium">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-warning-subtle text-warning" style="font-size: 0.65rem;">IN-PROGRESS (62%)</span>
+              <small class="text-muted">SPK-9889</small>
+            </div>
+            <h6 class="fw-bold mb-1">Metal Teeth Polished 70cm</h6>
+            <small class="text-secondary d-block mb-2">Mesin: H1K1 • 6.200/10.000 Pcs</small>
+            <div class="progress mb-2" style="height: 5px;"><div class="progress-bar bg-warning" style="width: 62%;"></div></div>
+            <div class="d-flex justify-content-between align-items-center small text-muted border-top pt-2">
+              <span><i class="bi bi-cpu me-1"></i>Bay A-01</span>
+              <span>Budi Santoso</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-xl-3">
+        <div class="kanban-col">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="fw-bold small text-dark"><i class="bi bi-tools me-1 text-info"></i> 3. SLIDER ASSEMBLY</span>
+            <span class="badge bg-info text-white">1</span>
+          </div>
+
+          <div class="kanban-card priority-normal">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-info-subtle text-info" style="font-size: 0.65rem;">ASSEMBLING (88%)</span>
+              <small class="text-muted">SPK-9872</small>
+            </div>
+            <h6 class="fw-bold mb-1">Vislon Slider Auto-Lock</h6>
+            <small class="text-secondary d-block mb-2">Mesin: H4K2 • 4.400/5.000 Pcs</small>
+            <div class="progress mb-2" style="height: 5px;"><div class="progress-bar bg-info" style="width: 88%;"></div></div>
+            <div class="d-flex justify-content-between align-items-center small text-muted border-top pt-2">
+              <span><i class="bi bi-cpu me-1"></i>Bay C-02</span>
+              <span>Rina Wijaya</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-6 col-xl-3">
+        <div class="kanban-col">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="fw-bold small text-dark"><i class="bi bi-check2-circle me-1 text-success"></i> 4. QC INSPECTED</span>
+            <span class="badge bg-success">1</span>
+          </div>
+
+          <div class="kanban-card priority-normal">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="badge bg-success-subtle text-success" style="font-size: 0.65rem;">100% OK PASSED</span>
+              <small class="text-muted">SPK-9850</small>
+            </div>
+            <h6 class="fw-bold mb-1">Metal Antique Silver 40cm</h6>
+            <small class="text-secondary d-block mb-2">8.000 Pcs • Siap Kirim Warehouse</small>
+            <div class="d-flex justify-content-between align-items-center small text-muted border-top pt-2">
+              <span><i class="bi bi-shield-check text-success me-1"></i>Defect: 0.12%</span>
+              <span class="text-success fw-bold">Siap Kirim</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
